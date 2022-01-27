@@ -5,6 +5,7 @@ import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 import net.mamoe.mirai.Bot
 import net.mamoe.mirai.console.*
+import net.mamoe.mirai.console.extension.*
 import net.mamoe.mirai.console.plugin.jvm.*
 import net.mamoe.mirai.spi.*
 import net.mamoe.mirai.utils.*
@@ -19,24 +20,30 @@ public object MiraiDevicePlugin : KotlinPlugin(
         author("cssxsh")
     }
 ) {
+    private val generator = MiraiDeviceGenerator()
+
+    @OptIn(MiraiExperimentalApi::class)
+    override fun PluginComponentStorage.onLoad() {
+        DeviceInfoService.setService(generator)
+    }
+
     @OptIn(MiraiExperimentalApi::class, ExperimentalSerializationApi::class)
     override fun onEnable() {
-        val generator = MiraiDeviceGenerator()
-        DeviceInfoService.setService(generator)
+        val json = Json { prettyPrint = true }
 
         with(dataFolder.resolve("models.json")) {
             if (exists()) {
-                generator.models = Json.decodeFromString(readText())
+                generator.models = json.decodeFromString(readText())
             } else {
-                writeText(Json.encodeToString(generator.models))
+                writeText(json.encodeToString(generator.models))
             }
         }
 
         with(dataFolder.resolve("sdks.json")) {
             if (exists()) {
-                generator.sdks = Json.decodeFromString(readText())
+                generator.sdks = json.decodeFromString(readText())
             } else {
-                writeText(Json.encodeToString(generator.sdks))
+                writeText(json.encodeToString(generator.sdks))
             }
         }
 
