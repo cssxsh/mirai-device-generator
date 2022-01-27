@@ -14,20 +14,20 @@ public interface DeviceInfoService : BaseService {
 
     public fun load(bot: Bot): DeviceInfo
 
-    public fun generate(bot: Bot): DeviceInfo
+    public fun generate(): DeviceInfo
 
     public object Default : DeviceInfoService {
         override fun load(bot: Bot): DeviceInfo {
             val file = bot.configuration.workingDir.resolve("device.json")
             if (!file.exists() || file.length() == 0L) {
-                return generate(bot).also {
+                return generate().also {
                     file.writeText(DeviceInfoManager.serialize(it))
                 }
             }
             return DeviceInfoManager.deserialize(file.readText())
         }
 
-        override fun generate(bot: Bot): DeviceInfo {
+        override fun generate(): DeviceInfo {
             return DeviceInfo.random()
         }
     }
@@ -39,8 +39,8 @@ public interface DeviceInfoService : BaseService {
             return loader.service.load(bot)
         }
 
-        override fun generate(bot: Bot): DeviceInfo {
-            return loader.service.generate(bot)
+        override fun generate(): DeviceInfo {
+            return loader.service.generate()
         }
 
         @JvmStatic
