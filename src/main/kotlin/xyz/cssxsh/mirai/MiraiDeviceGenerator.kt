@@ -7,6 +7,7 @@ import net.mamoe.mirai.utils.*
 import kotlin.random.*
 
 @OptIn(MiraiExperimentalApi::class)
+@Suppress("unused")
 public class MiraiDeviceGenerator : DeviceInfoService {
 
     override val priority: Int get() = super.priority - 1
@@ -43,6 +44,10 @@ public class MiraiDeviceGenerator : DeviceInfoService {
         )
     )
 
+    internal var addr = mapOf(
+        "Xiaomi" to listOf("c4:6a:b7")
+    )
+
     @Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
     public override fun load(bot: Bot): DeviceInfo {
         val file = bot.configuration.workingDir.resolve("device.json")
@@ -56,23 +61,23 @@ public class MiraiDeviceGenerator : DeviceInfoService {
 
     public override fun generate(): DeviceInfo {
         val model = models.random(random)
-        val sdk = sdks.random(random)
+        val sdk = model.sdks.randomOrNull(random) ?: sdks.random(random)
         return DeviceInfo(
             display = model.display.toByteArray(),
             product = model.name.toByteArray(),
             device = model.device.toByteArray(),
             board = model.board.toByteArray(),
             brand = model.brand.toByteArray(),
-            model = model.name.toByteArray(),
+            model = model.model.ifBlank { model.name }.toByteArray(),
             bootloader = "unknown".toByteArray(),
-            fingerprint = model.finger().toByteArray(),
+            fingerprint = model.finger(sdk).toByteArray(),
             bootId = generateUUID(getRandomByteArray(16, random).md5()).toByteArray(),
             procVersion = model.proc().toByteArray(),
-            baseBand = byteArrayOf(),
+            baseBand = model.baseBand.hexToBytes(),
             version = sdk.toDeviceVersion(),
             simInfo = "T-Mobile".toByteArray(),
             osType = "android".toByteArray(),
-            macAddress = "02:00:00:00:00:00".toByteArray(),
+            macAddress = model.mac().toByteArray(),
             wifiBSSID = "02:00:00:00:00:00".toByteArray(),
             wifiSSID = "<unknown ssid>".toByteArray(),
             imsiMd5 = getRandomByteArray(16, random).md5(),
@@ -81,8 +86,8 @@ public class MiraiDeviceGenerator : DeviceInfoService {
         )
     }
 
-    internal fun Model.finger(): String {
-        return "${brand}/${device}/${device}:10/${display}/${getRandomIntString(7, random)}:user/release-keys"
+    internal fun Model.finger(sdk: SdkVersion): String {
+        return "${brand}/${device}/${device}:${sdk.release}/${display}/${sdk.incremental}:user/release-keys"
     }
 
     internal fun Model.imei(): String {
@@ -92,7 +97,22 @@ public class MiraiDeviceGenerator : DeviceInfoService {
     }
 
     internal fun Model.proc(): String {
-        return "Linux version 3.0.31-${getRandomString(8, random)} (android-build@xxx.xxx.xxx.xxx.com)"
+        return proc.ifBlank {
+            "Linux version 3.0.31-${getRandomString(8, random)} (android-build@xxx.xxx.xxx.xxx.com)"
+        }
+    }
+
+    internal fun Model.mac(): String {
+        return if (mac.isNotBlank()) {
+            mac + ':' +  getRandomByteArray(3, random).toUHexString(separator = ":")
+        } else {
+            val head = addr[brand]?.randomOrNull(random)
+            if (head != null) {
+                head + ':' +  getRandomByteArray(3, random).toUHexString(separator = ":")
+            } else {
+                "02:00:00:00:00:00"
+            }
+        }
     }
 
     internal fun SdkVersion.toDeviceVersion(): DeviceInfo.Version {
@@ -121,7 +141,12 @@ public class MiraiDeviceGenerator : DeviceInfoService {
         val fac: String,
         val board: String,
         val device: String,
-        val display: String
+        val display: String,
+        val model: String = "",
+        val mac: String = "",
+        val baseBand: String = "",
+        val proc: String = "",
+        val sdks: List<SdkVersion> = emptyList(),
     )
 
     @Serializable

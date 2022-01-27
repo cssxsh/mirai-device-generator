@@ -32,19 +32,24 @@ public object MiraiDevicePlugin : KotlinPlugin(
         val json = Json { prettyPrint = true }
 
         with(dataFolder.resolve("models.json")) {
-            if (exists()) {
-                generator.models = json.decodeFromString(readText())
-            } else {
-                writeText(json.encodeToString(generator.models))
+            if (exists().not()) {
+                writeText(getResource("models.json") ?: throw NoSuchElementException("models.json"))
             }
+            generator.models = json.decodeFromString(readText())
         }
 
         with(dataFolder.resolve("sdks.json")) {
-            if (exists()) {
-                generator.sdks = json.decodeFromString(readText())
-            } else {
-                writeText(json.encodeToString(generator.sdks))
+            if (exists().not()) {
+                writeText(getResource("sdks.json") ?: throw NoSuchElementException("sdks.json"))
             }
+            generator.sdks = json.decodeFromString(readText())
+        }
+
+        with(dataFolder.resolve("mac.json")) {
+            if (exists().not()) {
+                writeText(getResource("mac.json") ?: throw NoSuchElementException("mac.json"))
+            }
+            generator.addr = json.decodeFromString(readText())
         }
 
         launch {
