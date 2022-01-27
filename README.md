@@ -4,6 +4,8 @@
 
 [![maven-central](https://img.shields.io/maven-central/v/xyz.cssxsh.mirai/mirai-device-generator)](https://search.maven.org/artifact/xyz.cssxsh.mirai/mirai-device-generator)
 
+作为插件运行时会检测 `mcl/bots/.../device.json`, `mcl/device.json` 是否存在，不存在则生成。
+
 ## board 编号
 
 ### 骁龙系列
