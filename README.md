@@ -2,6 +2,9 @@
 
 > Mirai DeviceInfo 生成器
 
+[![maven-central](https://img.shields.io/maven-central/v/xyz.cssxsh.mirai/mirai-device-generator)](https://search.maven.org/artifact/xyz.cssxsh.mirai/mirai-device-generator)
+
+## board 编号
 
 ### 骁龙系列
 
