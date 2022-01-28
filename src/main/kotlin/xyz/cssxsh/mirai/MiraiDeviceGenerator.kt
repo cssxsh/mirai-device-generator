@@ -2,15 +2,11 @@ package xyz.cssxsh.mirai
 
 import kotlinx.serialization.*
 import net.mamoe.mirai.*
-import net.mamoe.mirai.spi.*
 import net.mamoe.mirai.utils.*
 import kotlin.random.*
 
-@OptIn(MiraiExperimentalApi::class)
 @Suppress("unused")
-public class MiraiDeviceGenerator : DeviceInfoService {
-
-    override val priority: Int get() = super.priority - 1
+public class MiraiDeviceGenerator {
 
     internal var random: Random = Random.Default
 
@@ -49,7 +45,7 @@ public class MiraiDeviceGenerator : DeviceInfoService {
     )
 
     @Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
-    public override fun load(bot: Bot): DeviceInfo {
+    public fun load(bot: Bot): DeviceInfo {
         val file = bot.configuration.workingDir.resolve("device.json")
         if (!file.exists() || file.length() == 0L) {
             return generate().also {
@@ -59,7 +55,7 @@ public class MiraiDeviceGenerator : DeviceInfoService {
         return DeviceInfoManager.deserialize(file.readText())
     }
 
-    public override fun generate(): DeviceInfo {
+    public fun generate(): DeviceInfo {
         val model = models.random(random)
         val sdk = model.sdks.randomOrNull(random) ?: sdks.random(random)
         return DeviceInfo(
