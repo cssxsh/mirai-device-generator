@@ -3,9 +3,7 @@ package xyz.cssxsh.mirai.plugin
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 import net.mamoe.mirai.console.extension.*
-import net.mamoe.mirai.console.extensions.*
 import net.mamoe.mirai.console.plugin.jvm.*
-import net.mamoe.mirai.utils.*
 import xyz.cssxsh.mirai.*
 
 public object MiraiDevicePlugin : KotlinPlugin(
@@ -20,17 +18,14 @@ public object MiraiDevicePlugin : KotlinPlugin(
     private val generator = MiraiDeviceGenerator()
     private val json = Json { prettyPrint = true }
 
-    @OptIn(MiraiExperimentalApi::class)
     override fun PluginComponentStorage.onLoad() {
-        contribute(BotConfigurationAlterer) {
-            BotConfigurationAlterer { _, configuration ->
-                configuration.deviceInfo = generator::load
-                configuration
-            }
+        contributeBotConfigurationAlterer { _, configuration ->
+            configuration.deviceInfo = generator::load
+            configuration
         }
     }
 
-    @OptIn(MiraiExperimentalApi::class, ExperimentalSerializationApi::class)
+    @OptIn(ExperimentalSerializationApi::class)
     override fun onEnable() {
         with(dataFolder.resolve("models.json")) {
             if (exists().not()) {
