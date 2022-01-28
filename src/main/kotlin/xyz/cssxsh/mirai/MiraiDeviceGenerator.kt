@@ -1,7 +1,12 @@
 package xyz.cssxsh.mirai
 
 import kotlinx.serialization.*
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.json.Json
 import net.mamoe.mirai.*
+import net.mamoe.mirai.console.plugin.ResourceContainer.Companion.asResourceContainer
 import net.mamoe.mirai.utils.*
 import kotlin.random.*
 
@@ -10,39 +15,27 @@ public class MiraiDeviceGenerator {
 
     internal var random: Random = Random.Default
 
-    internal var models = listOf(
-        Model(
-            name = "Redmi Note 9 Pro 5G",
-            tac = "864365",
-            fac = "05",
-            board = "sm7225",
-            brand = "Xiaomi",
-            device = "sagit",
-            display = "OPR1.170623.027"
-        ),
-        Model(
-            name = "Redmi Note 8",
-            tac = "863971",
-            fac = "05",
-            board = "msm8953",
-            brand = "Xiaomi",
-            device = "sagit",
-            display = "OPR1.170623.027"
-        )
-    )
+    internal var models: List<Model>
 
-    internal var sdks = listOf(
-        SdkVersion(
-            incremental = "5891938",
-            release = "10",
-            codename = "REL",
-            sdk = 29
-        )
-    )
+    internal var sdks: List<SdkVersion>
 
-    internal var addr = mapOf(
-        "Xiaomi" to listOf("c4:6a:b7")
-    )
+    internal var addr: Map<String, List<String>>
+
+    init {
+        val container = MiraiDeviceGenerator::class.asResourceContainer()
+        models = Json.decodeFromString(
+            ListSerializer(Model.serializer()),
+            container.getResource("models.json")!!
+        )
+        sdks = Json.decodeFromString(
+            ListSerializer(SdkVersion.serializer()),
+            container.getResource("sdks.json")!!
+        )
+        addr = Json.decodeFromString(
+            MapSerializer(String.serializer(), ListSerializer(String.serializer())),
+            container.getResource("mac.json")!!
+        )
+    }
 
     @Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
     public fun load(bot: Bot): DeviceInfo {
@@ -64,7 +57,7 @@ public class MiraiDeviceGenerator {
             device = model.device.toByteArray(),
             board = model.board.toByteArray(),
             brand = model.brand.toByteArray(),
-            model = model.model.ifBlank { model.name }.toByteArray(),
+            model = model.model.ifBlank { model.device }.toByteArray(),
             bootloader = "unknown".toByteArray(),
             fingerprint = model.finger(sdk).toByteArray(),
             bootId = generateUUID(getRandomByteArray(16, random).md5()).toByteArray(),
@@ -82,8 +75,12 @@ public class MiraiDeviceGenerator {
         )
     }
 
+    // ro.build.fingerprint
     internal fun Model.finger(sdk: SdkVersion): String {
-        return "${brand}/${device}/${device}:${sdk.release}/${display}/${sdk.incremental}:user/release-keys"
+        if (finger.isNotBlank()) return finger
+        val id = sdk.id.ifBlank { display }
+        val model = model.ifBlank { device }
+        return "${brand}/${model}/${model}:${sdk.release}/${id}/${sdk.incremental}:user/release-keys"
     }
 
     internal fun Model.imei(): String {
@@ -100,11 +97,11 @@ public class MiraiDeviceGenerator {
 
     internal fun Model.mac(): String {
         return if (mac.isNotBlank()) {
-            mac + ':' +  getRandomByteArray(3, random).toUHexString(separator = ":")
+            mac + ':' + getRandomByteArray(3, random).toUHexString(separator = ":")
         } else {
             val head = addr[brand]?.randomOrNull(random)
             if (head != null) {
-                head + ':' +  getRandomByteArray(3, random).toUHexString(separator = ":")
+                head + ':' + getRandomByteArray(3, random).toUHexString(separator = ":")
             } else {
                 "02:00:00:00:00:00"
             }
@@ -132,24 +129,42 @@ public class MiraiDeviceGenerator {
     @Serializable
     public data class Model(
         val name: String,
+        // 品牌名 Xiaomi / Huawei / ONEPLUS
         val brand: String,
+        // imei 1~6 位
         val tac: String,
+        // imei 7~8 位
         val fac: String,
+        // 处理器代号 ro.board.platform
         val board: String,
+        // device ~ model ro.product.model
         val device: String,
-        val display: String,
         val model: String = "",
+        // 操作系统版本号
+        val display: String,
+        //
         val mac: String = "",
+        //
         val baseBand: String = "",
+        //
         val proc: String = "",
+        // ro.build.fingerprint
+        val finger: String = "",
+        //
         val sdks: List<SdkVersion> = emptyList(),
     )
 
     @Serializable
     public data class SdkVersion(
+        // ro.build.id
+        val id: String = "",
+        // ro.build.version.incremental
         val incremental: String,
+        // ro.build.version.release
         val release: String,
+        // ro.build.version.codename
         val codename: String,
+        // ro.build.version.sdk
         val sdk: Int,
     )
 }

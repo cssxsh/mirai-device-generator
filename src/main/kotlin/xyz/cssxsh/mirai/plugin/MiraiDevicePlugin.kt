@@ -16,7 +16,6 @@ public object MiraiDevicePlugin : KotlinPlugin(
     }
 ) {
     private val generator = MiraiDeviceGenerator()
-    private val json = Json { prettyPrint = true }
 
     override fun PluginComponentStorage.onLoad() {
         contributeBotConfigurationAlterer { _, configuration ->
@@ -28,22 +27,19 @@ public object MiraiDevicePlugin : KotlinPlugin(
     @OptIn(ExperimentalSerializationApi::class)
     override fun onEnable() {
         with(dataFolder.resolve("models.json")) {
-            if (exists().not()) {
-                writeText(getResource("xyz/cssxsh/mirai/plugin/models.json") ?: throw NoSuchElementException("models.json"))
+            if (exists()) {
+                generator.models = Json.decodeFromString(readText())
             }
-            generator.models = json.decodeFromString(readText())
         }
         with(dataFolder.resolve("sdks.json")) {
-            if (exists().not()) {
-                writeText(getResource("xyz/cssxsh/mirai/plugin/sdks.json") ?: throw NoSuchElementException("sdks.json"))
+            if (exists()) {
+                generator.sdks = Json.decodeFromString(readText())
             }
-            generator.sdks = json.decodeFromString(readText())
         }
         with(dataFolder.resolve("mac.json")) {
-            if (exists().not()) {
-                writeText(getResource("xyz/cssxsh/mirai/plugin/mac.json") ?: throw NoSuchElementException("mac.json"))
+            if (exists()) {
+                generator.addr = Json.decodeFromString(readText())
             }
-            generator.addr = json.decodeFromString(readText())
         }
     }
 }

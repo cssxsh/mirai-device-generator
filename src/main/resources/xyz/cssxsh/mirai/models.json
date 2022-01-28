@@ -1,0 +1,162 @@
+[
+    {
+        "name": "Redmi Note 9 Pro 5G",
+        "brand": "Xiaomi",
+        "tac": "864365",
+        "fac": "05",
+        "board": "sm7225",
+        "device": "sagit",
+        "display": "OPR1.170623.027"
+    },
+    {
+        "name": "Redmi Note 8",
+        "brand": "Xiaomi",
+        "tac": "863971",
+        "fac": "05",
+        "board": "msm8953",
+        "device": "sagit",
+        "display": "OPR1.170623.027"
+    },
+    {
+        "name": "MI 11 PRO",
+        "brand": "Xiaomi",
+        "tac": "861033",
+        "fac": "05",
+        "board": "sm8350",
+        "device": "mars",
+        "display": "SKQ1.211006.001",
+        "proc": "Linux version 5.4.86-qgki-gda9f45eed743 (builder@bj.idc.xiaomi.com)",
+        "sdks": [
+            {
+                "incremental": "22.1.17",
+                "release": "12",
+                "codename": "REL",
+                "sdk": 31
+            }
+        ]
+    },
+    {
+        "name": "Honor Play 4",
+        "brand": "Huawei",
+        "tac": "866516",
+        "fac": "04",
+        "board": "msm8916",
+        "device": "hwG620S-UL0",
+        "model": "G620S-UL0",
+        "display": "G620S-UL00V100R001C17B360_KangVIP",
+        "finger": "Huawei/G620S-UL00/hwG620S-UL00:4.4.4/HuaweiG620S-UL00/C17B360:user/release-keys",
+        "sdks": [
+            {
+                "id": "HuaweiG620S-UL00",
+                "incremental": "C17B360",
+                "release": "4.4.4",
+                "codename": "REL",
+                "sdk": 19
+            }
+        ]
+    },
+    {
+        "name": "Huawei Mate 8",
+        "brand": "Huawei",
+        "tac": "868632",
+        "fac": "03",
+        "board": "hi3650",
+        "device": "hi3650",
+        "display": "hi3650",
+        "sdks": [
+            {
+                "incremental": "1482960749",
+                "release": "7.0",
+                "codename": "REL",
+                "sdk": 24
+            }
+        ]
+    },
+    {
+        "name": "Huawei Mate 9 Pro",
+        "brand": "Huawei",
+        "tac": "862005",
+        "fac": "03",
+        "board": "hi3660",
+        "device": "hi3660",
+        "display": "hi3660",
+        "sdks": [
+            {
+                "incremental": "1484745697",
+                "release": "7.0",
+                "codename": "REL",
+                "sdk": 24
+            }
+        ]
+    },
+    {
+        "name": "Huawei Mediapad M2",
+        "brand": "Huawei",
+        "tac": "865881",
+        "fac": "03",
+        "board": "hi3635",
+        "device": "HWMozart",
+        "display": "M2-801LV100R001C209B007",
+        "finger": "HUAWEI/M2/HWMozart:5.1.1/HUAWEIM2-801L/C209B007:user/release-keys",
+        "sdks": [
+            {
+                "incremental": "C209B007",
+                "release": "5.1.1",
+                "codename": "REL",
+                "sdk": 22
+            }
+        ]
+    },
+    {
+        "name": "Huawei Mediapad M3",
+        "brand": "Huawei",
+        "tac": "865881",
+        "fac": "03",
+        "board": "hi3650",
+        "device": "hwbeethoven",
+        "display": "OPR1.170623.027",
+        "finger": "Huawei/BTV/hi3650:6.0/MRA58K/huawei12151809:user/release-keys",
+        "sdks": [
+            {
+                "incremental": "eng.huawei.20161215.180805",
+                "release": "6.0",
+                "codename": "REL",
+                "sdk": 23
+            }
+        ]
+    },
+    {
+        "name": "Huawei Nova Plus",
+        "brand": "Huawei",
+        "tac": "866150",
+        "fac": "03",
+        "board": "msm8953",
+        "device": "msm8953_64",
+        "display": "OPR1.170623.027",
+        "sdks": [
+            {
+                "incremental": "1484322243",
+                "release": "7.0",
+                "codename": "REL",
+                "sdk": 24
+            }
+        ]
+    },
+    {
+        "name": "Huawei P9 Plus",
+        "brand": "Huawei",
+        "tac": "869989",
+        "fac": "02",
+        "board": "hi3650",
+        "device": "hi3650",
+        "display": "OPR1.170623.027",
+        "sdks": [
+            {
+                "incremental": "1483046909",
+                "release": "7.0",
+                "codename": "REL",
+                "sdk": 24
+            }
+        ]
+    }
+]

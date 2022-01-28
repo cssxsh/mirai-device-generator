@@ -13,15 +13,15 @@ internal class MiraiDeviceGeneratorTest {
     fun model() {
         Json.decodeFromString(
             ListSerializer(MiraiDeviceGenerator.Model.serializer()),
-            container.getResource("plugin/models.json")!!
+            container.getResource("models.json")!!
         )
         Json.decodeFromString(
             ListSerializer(MiraiDeviceGenerator.SdkVersion.serializer()),
-            container.getResource("plugin/sdks.json")!!
+            container.getResource("sdks.json")!!
         )
         Json.decodeFromString(
             MapSerializer(String.serializer(), ListSerializer(String.serializer())),
-            container.getResource("plugin/mac.json")!!
+            container.getResource("mac.json")!!
         )
     }
 }
