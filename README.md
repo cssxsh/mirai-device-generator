@@ -7,7 +7,11 @@
 作为插件运行时会提供 `BotConfigurationAlterer` 服务，自动替换 `configuration.deviceInfo = generator::load`  
 如果要重新生成 `DeviceInfo`，删掉 `mcl/bots/.../device.json` 就好  
 作为 `mirai-core` 库引用时, 请自行调用 `configuration.deviceInfo = generator::load`  
-目前模拟的设备信息较少，有需求的可以到 issue 提需求，或者直接 pr
+目前模拟的设备信息较少，有需求的可以到 issue 提需求，或者直接 pr  
+
+## MCL安装
+
+`./mcl --update-package xyz.cssxsh.mirai:mirai-device-generator --channel stable --type plugin`
 
 ## board编号参考
 
