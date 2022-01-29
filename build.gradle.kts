@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "xyz.cssxsh.mirai"
-version = "1.0.1"
+version = "1.0.2"
 
 mavenCentralPublish {
     useCentralS01()
@@ -25,9 +25,9 @@ repositories {
 }
 
 dependencies {
-    compileOnly("net.mamoe:mirai-core-utils:${mirai.coreVersion}")
+    compileOnly("net.mamoe:mirai-core-utils:2.10.0-RC2")
 
-    testImplementation(kotlin("test", kotlin.coreLibrariesVersion))
+    testImplementation(kotlin("test", "1.6.0"))
 }
 
 kotlin {
@@ -35,7 +35,6 @@ kotlin {
 }
 
 mirai {
-    jvmTarget = JavaVersion.VERSION_11
     configureShadow {
         exclude("module-info.class")
     }
