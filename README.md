@@ -8,6 +8,8 @@
 如果要重新生成 `DeviceInfo`，删掉 `mcl/bots/.../device.json` 就好  
 作为 `mirai-core` 库引用时, 请自行调用 `configuration.deviceInfo = generator::load`  
 目前模拟的设备信息较少，有需求的可以到 issue 提需求，或者直接 pr  
+需要自定义 model 信息的，请按照 [folder](src/main/resources/xyz/cssxsh/mirai) 中的 json 文件格式  
+在 `data/mirai-device-generator/` 文件夹中创建同名文件
 
 ## MCL安装
 
