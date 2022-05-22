@@ -1,10 +1,8 @@
-package xyz.cssxsh.mirai
+package xyz.cssxsh.mirai.device
 
 import kotlinx.serialization.*
-import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.builtins.MapSerializer
-import kotlinx.serialization.builtins.serializer
-import kotlinx.serialization.json.Json
+import kotlinx.serialization.builtins.*
+import kotlinx.serialization.json.*
 import net.mamoe.mirai.*
 import net.mamoe.mirai.console.plugin.ResourceContainer.Companion.asResourceContainer
 import net.mamoe.mirai.utils.*

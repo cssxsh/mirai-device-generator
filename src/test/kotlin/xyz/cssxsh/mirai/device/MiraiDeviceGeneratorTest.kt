@@ -1,4 +1,4 @@
-package xyz.cssxsh.mirai
+package xyz.cssxsh.mirai.device
 
 import kotlinx.serialization.builtins.*
 import kotlinx.serialization.json.*

@@ -4,7 +4,6 @@ import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 import net.mamoe.mirai.console.extension.*
 import net.mamoe.mirai.console.plugin.jvm.*
-import xyz.cssxsh.mirai.*
 
 public object MiraiDevicePlugin : KotlinPlugin(
     JvmPluginDescription(
