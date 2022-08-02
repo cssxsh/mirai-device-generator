@@ -9,7 +9,7 @@ public object MiraiDevicePlugin : KotlinPlugin(
     JvmPluginDescription(
         id = "xyz.cssxsh.mirai.mirai-device-generator",
         name = "mirai-device-generator",
-        version = "1.1.0",
+        version = "1.1.1",
     ) {
         author("cssxsh")
     }
@@ -23,7 +23,6 @@ public object MiraiDevicePlugin : KotlinPlugin(
         }
     }
 
-    @OptIn(ExperimentalSerializationApi::class)
     override fun onEnable() {
         with(dataFolder.resolve("models.json")) {
             if (exists()) {
