@@ -9,7 +9,7 @@ public object MiraiDevicePlugin : KotlinPlugin(
     JvmPluginDescription(
         id = "xyz.cssxsh.mirai.mirai-device-generator",
         name = "mirai-device-generator",
-        version = "1.1.2",
+        version = "1.1.3",
     ) {
         author("cssxsh")
     }

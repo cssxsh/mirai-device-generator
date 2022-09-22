@@ -19,18 +19,18 @@ public class MiraiDeviceGenerator {
     internal var addr: Map<String, List<String>>
 
     init {
-        val classLoader = MiraiDeviceGenerator::class.java.classLoader
+        val clazz = MiraiDeviceGenerator::class.java
         models = Json.decodeFromString(
             ListSerializer(Model.serializer()),
-            classLoader.getResource("models.json")!!.readText()
+            clazz.getResource("models.json")!!.readText()
         )
         sdks = Json.decodeFromString(
             ListSerializer(SdkVersion.serializer()),
-            classLoader.getResource("sdks.json")!!.readText()
+            clazz.getResource("sdks.json")!!.readText()
         )
         addr = Json.decodeFromString(
             MapSerializer(String.serializer(), ListSerializer(String.serializer())),
-            classLoader.getResource("mac.json")!!.readText()
+            clazz.getResource("mac.json")!!.readText()
         )
     }
 
