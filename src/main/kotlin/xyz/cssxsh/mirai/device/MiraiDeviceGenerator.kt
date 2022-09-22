@@ -4,7 +4,6 @@ import kotlinx.serialization.*
 import kotlinx.serialization.builtins.*
 import kotlinx.serialization.json.*
 import net.mamoe.mirai.*
-import net.mamoe.mirai.console.plugin.ResourceContainer.Companion.asResourceContainer
 import net.mamoe.mirai.utils.*
 import kotlin.random.*
 
@@ -20,18 +19,18 @@ public class MiraiDeviceGenerator {
     internal var addr: Map<String, List<String>>
 
     init {
-        val container = MiraiDeviceGenerator::class.asResourceContainer()
+        val classLoader = MiraiDeviceGenerator::class.java.classLoader
         models = Json.decodeFromString(
             ListSerializer(Model.serializer()),
-            container.getResource("models.json")!!
+            classLoader.getResource("models.json")!!.readText()
         )
         sdks = Json.decodeFromString(
             ListSerializer(SdkVersion.serializer()),
-            container.getResource("sdks.json")!!
+            classLoader.getResource("sdks.json")!!.readText()
         )
         addr = Json.decodeFromString(
             MapSerializer(String.serializer(), ListSerializer(String.serializer())),
-            container.getResource("mac.json")!!
+            classLoader.getResource("mac.json")!!.readText()
         )
     }
 
