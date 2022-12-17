@@ -7,15 +7,18 @@ import net.mamoe.mirai.*
 import net.mamoe.mirai.utils.*
 import kotlin.random.*
 
-@Suppress("unused")
 public class MiraiDeviceGenerator {
 
+    @PublishedApi
     internal var random: Random = Random.Default
 
+    @PublishedApi
     internal var models: List<Model>
 
+    @PublishedApi
     internal var sdks: List<SdkVersion>
 
+    @PublishedApi
     internal var addr: Map<String, List<String>>
 
     init {
@@ -73,6 +76,7 @@ public class MiraiDeviceGenerator {
     }
 
     // ro.build.fingerprint
+    @PublishedApi
     internal fun Model.finger(sdk: SdkVersion): String {
         if (finger.isNotBlank()) return finger
         val id = sdk.id.ifBlank { display }
@@ -80,18 +84,21 @@ public class MiraiDeviceGenerator {
         return "${brand}/${model}/${model}:${sdk.release}/${id}/${sdk.incremental}:user/release-keys"
     }
 
+    @PublishedApi
     internal fun Model.imei(): String {
         val snr = getRandomIntString(6, random)
         val sp: Int = luhn(tac + fac + snr)
         return tac + fac + snr + sp
     }
 
+    @PublishedApi
     internal fun Model.proc(): String {
         return proc.ifBlank {
             "Linux version 3.0.31-${getRandomString(8, random)} (android-build@xxx.xxx.xxx.xxx.com)"
         }
     }
 
+    @PublishedApi
     internal fun Model.mac(): String {
         return if (mac.isNotBlank()) {
             mac + ':' + getRandomByteArray(3, random).toUHexString(separator = ":")
@@ -105,6 +112,7 @@ public class MiraiDeviceGenerator {
         }
     }
 
+    @PublishedApi
     internal fun SdkVersion.toDeviceVersion(): DeviceInfo.Version {
         return DeviceInfo.Version(
             incremental = incremental.toByteArray(),
