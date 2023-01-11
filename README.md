@@ -10,7 +10,9 @@
 作为 `mirai-core` 项目的[maven库引用](https://search.maven.org/artifact/xyz.cssxsh.mirai/mirai-device-generator)时, 请自行调用 `configuration.deviceInfo = generator::load`  
 目前模拟的设备信息较少，有需求的可以到 issue 提需求，或者直接 pr  
 需要自定义 model 信息的，请按照 [folder](src/main/resources/xyz/cssxsh/mirai) 中的 json 文件格式  
-在 `data/mirai-device-generator/` 文件夹中创建同名文件
+在 `data/mirai-device-generator/` 文件夹中创建同名文件  
+
+如果要追求更真实的数据生成·，请使用 <https://github.com/MrXiaoM/Aoki>
 
 ## MCL安装
 
