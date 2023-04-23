@@ -4,6 +4,7 @@ import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 import net.mamoe.mirai.console.extension.*
 import net.mamoe.mirai.console.plugin.jvm.*
+import net.mamoe.mirai.event.*
 
 public object MiraiDevicePlugin : KotlinPlugin(
     JvmPluginDescription(
@@ -39,5 +40,6 @@ public object MiraiDevicePlugin : KotlinPlugin(
                 generator.addr = Json.decodeFromString(readText())
             }
         }
+        MiraiDeviceReset.registerTo(globalEventChannel())
     }
 }
