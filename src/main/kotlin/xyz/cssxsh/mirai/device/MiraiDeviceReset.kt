@@ -26,7 +26,7 @@ public object MiraiDeviceReset : SimpleListenerHost() {
             if (success) {
                 bot.logger.info { "device.json 可能已经被拉黑, 将重新生成，请稍后重新尝试手动重新登陆" }
             }
-        } catch (_: ClassNotFoundException) {
+        } catch (_: NoClassDefFoundError) {
             // ...
         }
     }
