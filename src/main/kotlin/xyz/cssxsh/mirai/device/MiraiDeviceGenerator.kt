@@ -5,6 +5,7 @@ import kotlinx.serialization.builtins.*
 import kotlinx.serialization.json.*
 import net.mamoe.mirai.*
 import net.mamoe.mirai.utils.*
+import net.mamoe.mirai.utils.DeviceInfo.Companion.loadAsDeviceInfo
 import kotlin.random.*
 
 public class MiraiDeviceGenerator {
@@ -45,7 +46,8 @@ public class MiraiDeviceGenerator {
                 file.writeText(DeviceInfoManager.serialize(it))
             }
         }
-        return DeviceInfoManager.deserialize(file.readText())
+        // 23/05/08 fix: DeviceInfoManager.deserialize(file.readText())
+        return file.loadAsDeviceInfo()
     }
 
     public fun generate(): DeviceInfo {
