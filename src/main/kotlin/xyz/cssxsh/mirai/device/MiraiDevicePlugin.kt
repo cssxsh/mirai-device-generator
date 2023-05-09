@@ -6,11 +6,12 @@ import net.mamoe.mirai.console.extension.*
 import net.mamoe.mirai.console.plugin.jvm.*
 import net.mamoe.mirai.event.*
 
-public object MiraiDevicePlugin : KotlinPlugin(
+@PublishedApi
+internal object MiraiDevicePlugin : KotlinPlugin(
     JvmPluginDescription(
         id = "xyz.cssxsh.mirai.mirai-device-generator",
         name = "mirai-device-generator",
-        version = "1.1.3",
+        version = "1.2.0",
     ) {
         author("cssxsh")
     }
