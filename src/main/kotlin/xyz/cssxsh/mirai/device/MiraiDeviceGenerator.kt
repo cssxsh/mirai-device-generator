@@ -5,7 +5,6 @@ import kotlinx.serialization.builtins.*
 import kotlinx.serialization.json.*
 import net.mamoe.mirai.*
 import net.mamoe.mirai.utils.*
-import net.mamoe.mirai.utils.DeviceInfo.Companion.loadAsDeviceInfo
 import kotlin.random.*
 
 public class MiraiDeviceGenerator {
@@ -46,35 +45,27 @@ public class MiraiDeviceGenerator {
                 file.writeText(DeviceInfoManager.serialize(it))
             }
         }
-        // 23/05/08 fix: DeviceInfoManager.deserialize(file.readText())
-        return file.loadAsDeviceInfo()
+        return DeviceInfoManager.deserialize(file.readText())
     }
 
     public fun generate(): DeviceInfo {
         val model = models.random(random)
         val sdk = model.sdks.randomOrNull(random) ?: sdks.random(random)
-        return DeviceInfo(
-            display = model.display.toByteArray(),
-            product = model.name.toByteArray(),
-            device = model.device.toByteArray(),
-            board = model.board.toByteArray(),
-            brand = model.brand.toByteArray(),
-            model = model.model.ifBlank { model.device }.toByteArray(),
-            bootloader = "unknown".toByteArray(),
-            fingerprint = model.finger(sdk).toByteArray(),
-            bootId = generateUUID(getRandomByteArray(16, random).md5()).toByteArray(),
-            procVersion = model.proc().toByteArray(),
-            baseBand = model.baseBand.hexToBytes(),
-            version = sdk.toDeviceVersion(),
-            simInfo = "T-Mobile".toByteArray(),
-            osType = "android".toByteArray(),
-            macAddress = model.mac().toByteArray(),
-            wifiBSSID = "02:00:00:00:00:00".toByteArray(),
-            wifiSSID = "<unknown ssid>".toByteArray(),
-            imsiMd5 = getRandomByteArray(16, random).md5(),
-            imei = model.imei(),
-            apn = "wifi".toByteArray()
-        )
+
+        return DeviceInfoBuilder.fromRandom()
+            .display(model.display)
+            .product(model.name)
+            .device(model.device)
+            .board(model.board)
+            .brand(model.brand)
+            .model(model.model.ifEmpty { model.device })
+            .fingerprint(model.finger(sdk))
+            .procVersion(model.proc())
+            .baseBand(model.baseBand.hexToBytes())
+            .version(sdk.toDeviceVersion())
+            .macAddress(model.mac())
+            .imei(model.imei())
+            .build()
     }
 
     // ro.build.fingerprint
@@ -146,6 +137,7 @@ public class MiraiDeviceGenerator {
         val board: String,
         // device ~ model ro.product.model
         val device: String,
+        //
         val model: String = "",
         // 操作系统版本号
         val display: String,
