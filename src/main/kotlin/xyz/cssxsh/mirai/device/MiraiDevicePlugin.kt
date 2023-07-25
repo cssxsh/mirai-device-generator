@@ -11,7 +11,7 @@ internal object MiraiDevicePlugin : KotlinPlugin(
     JvmPluginDescription(
         id = "xyz.cssxsh.mirai.mirai-device-generator",
         name = "mirai-device-generator",
-        version = "1.2.0",
+        version = "1.3.0",
     ) {
         author("cssxsh")
     }

@@ -16,7 +16,7 @@
 
 ## MCL安装
 
-`./mcl --update-package xyz.cssxsh.mirai:mirai-device-generator --channel stable --type plugin`
+`./mcl --update-package xyz.cssxsh.mirai:mirai-device-generator --channel maven-stable --type plugin`
 
 ## board编号参考
 

@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "xyz.cssxsh.mirai"
-version = "1.2.0"
+version = "1.3.0"
 
 mavenCentralPublish {
     useCentralS01()
@@ -21,8 +21,8 @@ mavenCentralPublish {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
+    maven("https://repo.mirai.mamoe.net/snapshots")
 }
 
 dependencies {
