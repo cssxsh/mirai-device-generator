@@ -1,5 +1,6 @@
 package xyz.cssxsh.mirai.device
 
+import kotlinx.coroutines.*
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 import net.mamoe.mirai.console.extension.*
@@ -42,5 +43,9 @@ internal object MiraiDevicePlugin : KotlinPlugin(
             }
         }
         MiraiDeviceReset.registerTo(globalEventChannel())
+    }
+
+    override fun onDisable() {
+        MiraiDeviceReset.cancel()
     }
 }
